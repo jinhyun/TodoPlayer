@@ -1,0 +1,38 @@
+{
+  "_comment" : "1h = 60m = 3600s = 3600 000 mil",
+  "todoList": [
+    {
+      "no": "1",
+      "contents": "dev: Todo 목록조회",
+
+      "expectDate": "2015.03.19",
+      "expectTimeSeconds": "9000000.000",
+
+      "totalTimeSeconds": "3600000.000",
+      "isDone": "true",
+      "doneDate": "2015.03.19"
+    },
+    {
+      "no": "2",
+      "contents": "심부름",
+
+      "expectDate": "2015.03.19",
+      "expectTimeSeconds": "3600000.000",
+
+      "totalTimeSeconds": "0.000",
+      "isDone": "false",
+      "doneDate": ""
+    },
+    {
+      "no": "3",
+      "contents": "계좌이체",
+
+      "expectDate": "2015.03.19",
+      "expectTimeSeconds": "1800000.000",
+
+      "totalTimeSeconds": "0.000",
+      "isDone": "false",
+      "doneDate": ""
+    }
+  ]
+}

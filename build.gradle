@@ -1,0 +1,61 @@
+// plugin 설정 : JAVA, WAR(JAVA-WEB)
+apply plugin: 'java'
+apply plugin: 'war'
+
+// JAVA Version 1.8
+sourceCompatibility = 1.8
+// 개발한 애플리케이션 버전
+version = '1.0'
+
+// 의존성 설정에 사용할 프로퍼티
+springVersion='3.2.13.RELEASE'
+//logBackVersion='1.0.6'
+
+// 메이븐 Central 저장소 사용
+repositories {
+	mavenCentral()
+}
+
+// 의존성 설정
+dependencies {
+	//compile 'org.springframework:spring-context:3.2.13.RELEASE'
+	compile "org.springframework:spring-webmvc:$springVersion"
+	compile 'cglib:cglib-nodep:2.2.2'
+	compile 'ch.qos.logback:logback-classic:1.0.6'
+    compile 'com.googlecode.json-simple:json-simple:1.1.1'
+
+	providedCompile 'javax.servlet:javax.servlet-api:3.0.1'
+
+	testCompile "org.springframework:spring-test:$springVersion",
+	 		'junit:junit:4.+',
+			'org.mockito:mockito-core:1.9.0'
+}
+
+// logback(slf4j)를 사용하기 때문에 모든 의존성에서 commons-logging는 제외
+[configurations.runtime, configurations.default]*.exclude(module: 'commons-logging')
+
+// JAVA 컴파일시 인코딩 설정
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+// TEST 설정
+test {
+	jvmArgs = ['-ea', '-Xmx256m']
+	logging.captureStandardOutput(LogLevel.INFO)
+	testReport = false
+}
+
+// 프로젝트 초기화
+// 1. java source directory 생성 : src/main/java, src/test/java
+// 2. resource directory 생성    : src/main/resource, src/test/resource
+// 3. web source directory 생성  : src/main/webapp, src/main/webapp/WEB-INF
+task initProject(description: 'initialize project') << {
+	createDir = {
+		println "create source directory: $it"
+		it.mkdirs()
+	}
+	sourceSets*.java.srcDirs*.each createDir
+	sourceSets*.resources.srcDirs*.each createDir
+	createDir webAppDir
+	createDir new File(webAppDir, '/WEB-INF')
+}
+
