@@ -1,8 +1,4 @@
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
+import com.google.gson.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StopWatch;
@@ -32,20 +28,15 @@ public class TodoPlayer {
     }
 
     private List <Todo> todoJsonFileRead() {
+        TodoListJson todoListJson = new TodoListJson();
         try {
-            JsonReader jsonReader = new JsonReader(new FileReader(fileName));
-            JsonElement jsonElement = new JsonParser().parse(jsonReader);
-            JsonObject jsonObject = jsonElement.getAsJsonObject();
-            JsonArray jsonArray = jsonObject.getAsJsonArray("todoList");
-
-            for (int i=0; i<jsonArray.size(); i++){
-                JsonObject todoObj = (JsonObject) jsonArray.get(i);
-                System.out.println(todoObj.get("contents").getAsString());
-            }
+            Gson gson = new Gson();
+            todoListJson =
+                    gson.fromJson(new FileReader(fileName),TodoListJson.class);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        return todoList;
+        return todoListJson.getTodoList();
     }
 
     public void viewTodoList() {
@@ -153,6 +144,14 @@ public class TodoPlayer {
                 this.playingTodo = todo;
                 break;
             }
+        }
+    }
+
+    private class TodoListJson {
+        List <Todo> todoList = new ArrayList<>();
+
+        public List <Todo> getTodoList() {
+            return todoList;
         }
     }
 

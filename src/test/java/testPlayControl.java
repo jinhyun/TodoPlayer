@@ -17,21 +17,24 @@ public class testPlayControl {
         todoPlayer.viewTodoList();
     }
 
-    @Ignore @Test
+    @Test
     public void playControl_play(){
         TodoPlayer todoPlayer = new TodoPlayer();
         todoPlayer.playTodo(1);
     }
 
-    @Ignore @Test
-    public void playControl_stop(){
+    @Test
+    public void playControl_stop() throws InterruptedException {
         TodoPlayer todoPlayer = new TodoPlayer();
+        todoPlayer.playTodo(2);
+        Thread.sleep(1000);
         todoPlayer.stopTodo();
     }
 
     @Test
     public void viewPlayingTodo() {
         TodoPlayer todoPlayer = new TodoPlayer();
+        todoPlayer.playTodo(2);
         todoPlayer.viewPlayingTodo();
     }
 
