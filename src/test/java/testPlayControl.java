@@ -1,3 +1,4 @@
+import com.sun.tools.javac.comp.Todo;
 import org.junit.*;
 
 import static org.junit.Assert.*;
@@ -15,6 +16,15 @@ public class testPlayControl {
 
         todoPlayer.viewPlayingTodo();
         todoPlayer.viewTodoList();
+    }
+
+    @Test
+    public void testUpdateTodoListJson() throws InterruptedException {
+        TodoPlayer todoPlayer = new TodoPlayer();
+        todoPlayer.playTodo(3);
+        Thread.sleep(2000); //계좌이체 항목, 2000 추가
+        todoPlayer.stopTodo();
+        todoPlayer.updateTodoListJson();
     }
 
     @Test
@@ -42,6 +52,20 @@ public class testPlayControl {
     public void testViewTodoList() {
         TodoPlayer todoPlayer = new TodoPlayer();
         todoPlayer.viewTodoList();
+    }
+
+    @Test
+    public void testViewMenu() {
+        TodoPlayer todoPlayer = new TodoPlayer();
+        todoPlayer.viewMenu();
+    }
+
+    @Test
+    public void testControlMenu(){
+        TodoPlayer todoPlayer = new TodoPlayer();
+        todoPlayer.viewTodoPlayer();
+        todoPlayer.selectMenu("2");
+        todoPlayer.viewTodoPlayer();
     }
 
     @Test

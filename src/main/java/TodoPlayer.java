@@ -3,8 +3,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StopWatch;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +14,7 @@ public class TodoPlayer {
     Logger logger = LoggerFactory.getLogger("");
 
     List<Todo> todoList = new ArrayList<>();
-    Todo playingTodo;
+    Todo playingTodo = new Todo();
     String fileName = "src/main/resources/todoList.json";
     StopWatch stopWatch = new StopWatch();
 
@@ -97,6 +96,32 @@ public class TodoPlayer {
         System.out.println(sb.toString());
     }
 
+    public void viewMenu() {
+        StringBuffer sb = new StringBuffer();
+        sb.append("정지:S, 완료:D, 번호입력시 자동시작합니다\n");
+        sb.append(">>");
+        System.out.println(sb);
+    }
+
+    public void selectMenu(String userInput) {
+        if (userInput.equals("S") || userInput.equals("s")){
+            stopTodo();
+        } else if (userInput.equals("D") || userInput.equals("d")){
+            // TODO: feature doneTodo()
+        } else {
+            // TODO: validation
+            playTodo(Integer.parseInt(userInput));
+        }
+    }
+
+    public void viewTodoPlayer(){
+        if (playingTodo != null) {
+            viewPlayingTodo();
+        }
+        viewTodoList();
+        viewMenu();
+    }
+
     public String convertSecondsFormat(double time) { // 9005 000
         // 3600 + 3600 + 1800 + 5 = 2h30m5s
         double HOUR_SECONDS = 3600 * 1000;
@@ -138,6 +163,22 @@ public class TodoPlayer {
         stopWatch.stop();
         playingTodo.setTotalTimeSeconds(stopWatch.getTotalTimeMillis());
     }
+
+    public void updateTodoListJson() {
+        Gson gson = new Gson();
+        TodoListJson todoListJson = new TodoListJson();
+        todoListJson.setTodoList(todoList);
+        String json = gson.toJson(todoListJson, TodoListJson.class);
+        System.out.println(json);
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(fileName));
+            bw.write(json);
+            bw.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void setPlayingTodo(int no) {
         for (Todo todo : todoList){
             if (todo.getNo() == no) {
@@ -152,6 +193,10 @@ public class TodoPlayer {
 
         public List <Todo> getTodoList() {
             return todoList;
+        }
+
+        public void setTodoList(List<Todo> todoList) {
+            this.todoList = todoList;
         }
     }
 
