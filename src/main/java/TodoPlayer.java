@@ -182,7 +182,7 @@ public class TodoPlayer {
     public void setPlayingTodo(int no) {
         for (Todo todo : todoList){
             if (todo.getNo() == no) {
-                this.playingTodo = todo;
+                this.playingTodo = todo.clone();
                 break;
             }
         }
@@ -200,7 +200,7 @@ public class TodoPlayer {
         }
     }
 
-    private class Todo {
+    private class Todo implements Cloneable {
         private int no;
         private String contents;
         private String expectDate;
@@ -269,6 +269,16 @@ public class TodoPlayer {
 
         public void setInitData() {
             // 테스트 json 파일 초기화
+        }
+
+        public Todo clone() {
+            Todo todo = null;
+            try {
+                todo = (Todo)super.clone();
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
+            return todo;
         }
     }
 }

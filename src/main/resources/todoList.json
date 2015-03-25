@@ -23,7 +23,7 @@
       "contents": "계좌이체",
       "expectDate": "2015.03.19",
       "expectTimeSeconds": 1800.0,
-      "totalTimeSeconds": 2002.0,
+      "totalTimeSeconds": 0.0,
       "isDone": false,
       "doneDate": ""
     }
